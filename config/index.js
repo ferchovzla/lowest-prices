@@ -1,23 +1,46 @@
-// Utilizar funcionalidades del Ecmascript 6
-'use strict'
-// Cargamos el módulo de mongoose para poder conectarnos a MongoDB
-var mongoose = require('mongoose');
-// *Cargamos el fichero app.js con la configuración de Express
-var app = require('../app');
-// Creamos la variable PORT para indicar el puerto en el que va a funcionar el servidor
-var port = 3800;
-// Le indicamos a Mongoose que haremos la conexión con Promesas
+let express = require('express');
+let mongoose = require('mongoose');
+let cors = require('cors');
+let bodyParser = require('body-parser');
+let dbConfig = require('./database/db');
+
+// Express Route
+const productRoute = require('../route/product.route')
+
+// Connecting mongoDB Database
 mongoose.Promise = global.Promise;
-// Usamos el método connect para conectarnos a nuestra base de datos
-mongoose.connect('mongodb://localhost:27017/market_products',  { useMongoClient: true})
-    .then(() => {
-        // Cuando se realiza la conexión, lanzamos este mensaje por consola
-        console.log("La conexión a la base de datos market_products se ha realizado correctamente")
-    
-        // CREATE WEBSERVER WITH NODEJS
-        app.listen(port, () => {
-            console.log("servidor corriendo en http://localhost:3800");
-        });
-    })
-    // Throw exception when can not connect
-    .catch(err => console.log(err));
+mongoose.connect(dbConfig.db, {
+  useNewUrlParser: true
+}).then(() => {
+  console.log('Database sucessfully connected!')
+},
+  error => {
+    console.log('Could not connect to database : ' + error)
+  }
+)
+
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(cors());
+app.use('/products', productRoute)
+
+
+// PORT
+const port = process.env.PORT || 4000;
+const server = app.listen(port, () => {
+  console.log('Connected to port ' + port)
+})
+
+// 404 Error
+app.use((req, res, next) => {
+  next(createError(404));
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err.message);
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(err.statusCode).send(err.message);
+});
