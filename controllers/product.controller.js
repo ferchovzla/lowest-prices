@@ -33,7 +33,7 @@ exports.create = (req, res) => {
   product
     .save(product)
     .then(data => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch(err => {
       res.status(500).send({
@@ -69,6 +69,23 @@ exports.findOne = (req, res) => {
       if (!data)
         res.status(404).send({ message: "Not found Product with id " + id });
       else res.send(data);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Product with id=" + id });
+    });
+};
+
+// Find a single Product with an id
+exports.findByName = (req, res) => {
+  const nameToFind = req.params.name;
+
+  Product.find({name: nameToFind})
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Product with id " + id });
+      else res.status(200).send(data);
     })
     .catch(err => {
       res
