@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cors());
-app.use('/products', productRoute)
+app.use('/api/products/', productRoute)
 
 
 // PORT
@@ -40,6 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.use(function (err, req, res, next) {
+  console.error("Se ha generado un error.....");
   console.error(err.message);
   if (!err.statusCode) err.statusCode = 500;
   res.status(err.statusCode).send(err.message);
