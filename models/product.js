@@ -16,10 +16,10 @@ let ProductSchema = Schema({
         unique: true 
     },
     price: {
-        type: Decimal128
+        type: mongoose.Decimal128
     }, 
     temp_price:{
-        type: Decimal128
+        type: mongoose.Decimal128
     },
     currency: {
         type: String
@@ -34,13 +34,13 @@ let ProductSchema = Schema({
         type: Date
     },
     weight: {
-        type: Decimal128
+        type: mongoose.Decimal128
     },
     unit: {
         type: String
     },
     rate: {
-        type: Decimal128
+        type: mongoose.Decimal128
     },  
     enabled: {
         type: Boolean
@@ -49,7 +49,7 @@ let ProductSchema = Schema({
         type: String
     }, 
     image: {
-        type: Decimal128
+        type: mongoose.Decimal128
     },
 
 },  {
