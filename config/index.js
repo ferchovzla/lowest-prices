@@ -10,7 +10,9 @@ const productRoute = require('../routes/product.route')
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.db, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useCreateIndex:true,
+  useUnifiedTopology: true
 }).then(() => {
   console.log('Database sucessfully connected!')
 },
@@ -25,8 +27,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cors());
-app.use('/api/products/', productRoute)
-
+//set apis routes
+app.use('/api/products/', productRoute);
+//set assets route
+app.use('/assets', express.static('assets'));
 
 // PORT
 const port = process.env.PORT || 4000;
