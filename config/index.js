@@ -2,10 +2,10 @@ let express = require('express');
 let mongoose = require('mongoose');
 let cors = require('cors');
 let bodyParser = require('body-parser');
-let dbConfig = require('./database/db');
+let dbConfig = require('../database/db');
 
 // Express Route
-const productRoute = require('../route/product.route')
+const productRoute = require('../routes/product.route')
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
