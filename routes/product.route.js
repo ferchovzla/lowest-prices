@@ -1,4 +1,4 @@
-module.exports = app => {
+
   const products = require("../controllers/product.controller.js");
 
   var router = require("express").Router();
@@ -27,5 +27,7 @@ module.exports = app => {
   // Create a new Product
   router.delete("/", products.deleteAll);
 
-  app.use("/api/products", router);
-};
+  //app.use("/api/products", router);
+
+  module.exports = router;
+
