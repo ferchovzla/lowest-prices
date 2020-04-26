@@ -4,27 +4,32 @@ const mongoose =  require('mongoose');
 // use the Schema
 const Schema = mongoose.Schema;
 // Create the schema objet and attributes
-let ProductSchema = Schema({
+let ServiceSchema = Schema({
     name: {
         type: String
     },
     description: {
         type: String
     },
-    code: { 
-        type: String, 
-        unique: true 
-    },
-    price: {
-        type: mongoose.Decimal128
-    }, 
-    temp_price:{
-        type: mongoose.Decimal128
-    },
-    currency: {
+    address: { 
         type: String
     },
-    is_promotion: {
+    city: { 
+        type: String
+    },
+    country: { 
+        type: String
+    },
+    phone: {
+        type: String
+    },
+    phone2: {
+        type: String
+    }, 
+    photo: {
+        type: String
+    },
+    has_promotion: {
         type: Boolean
     },
     begin_promotion_date: {
@@ -32,15 +37,6 @@ let ProductSchema = Schema({
     },
     end_promotion_date: {
         type: Date
-    },
-    weight: {
-        type: mongoose.Decimal128
-    },
-    unit: {
-        type: String
-    },
-    rate: {
-        type: mongoose.Decimal128
     },  
     enabled: {
         type: Boolean
@@ -56,10 +52,10 @@ let ProductSchema = Schema({
     },
     updated_at: {
         type: Date
-    }
+    },
 
 },  {
-    collection: 'products'
+    collection: 'services'
     });
 // Export the model for use it
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Service', ServiceSchema);

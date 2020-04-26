@@ -8,10 +8,19 @@ var UserSchema = Schema({
     name: String,
     lastname: String,
     username: String,
-    email: String,
+    email: { 
+        type: String, 
+        unique: true 
+    }
     password: String,
     role: String, 
-    image: String
+    image: String,
+    created_at: {
+        type: Date
+    },
+    updated_at: {
+        type: Date
+    }
 });
 // Exportamos el modelo para usarlo en otros ficheros
 module.exports = mongoose.model('User', UserSchema);
