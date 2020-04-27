@@ -10,13 +10,13 @@
   router.get("/", products.findAll);
 
   // Retrieve all Products with promotion
-  router.get("/promotions", products.findAllPromotions);
+  router.get("/promos/has", products.findAllPromotions);
 
   // Retrieve a single Product with id
   router.get("/:id", products.findOne);
 
   // Retrieve a single Product with id
-  router.get("/:name", products.findByName);
+  router.get("/name/:name", products.findByName);
 
   // Update a Product with id
   router.put("/:id", products.update);

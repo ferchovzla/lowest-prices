@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cors());
 //set apis routes
-app.use('/api/products/', productRoute);
+app.use('/api/products', productRoute);
 //set assets route
 app.use('/assets', express.static('assets'));
 
