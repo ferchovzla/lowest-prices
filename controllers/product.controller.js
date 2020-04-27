@@ -10,6 +10,8 @@ exports.create = (req, res) => {
     return;
   }
 
+  let dateTime = new Date();
+
   // Create a Product
   const product = new Product({
     name: req.body.name,
@@ -26,14 +28,16 @@ exports.create = (req, res) => {
     rate: req.body.rate,  
     enabled: req.body.enabled,
     category: req.body.category, 
-    image: req.body.image
+    image: req.body.image,
+    created_at: dateTime,
+    updated_at: dateTime
   });
 
   // Save Product in the database
   product
     .save(product)
     .then(data => {
-      res.status(200).send(data);
+      res.status(200).send({ message: "Product saved successfully: "+req.body.name, data:data });
     })
     .catch(err => {
       res.status(500).send({
@@ -45,11 +49,13 @@ exports.create = (req, res) => {
 
 // Retrieve all Products from the database.
 exports.findAll = (req, res) => {
+  console.log("findAll ....");
   const name = req.query.name;
   var condition = name ? { name: { $regex: new RegExp(name), $options: "i" } } : {};
 
   Product.find(condition)
     .then(data => {
+      console.log(".then(data)... "+data);
       res.send(data);
     })
     .catch(err => {
@@ -63,13 +69,10 @@ exports.findAll = (req, res) => {
 // Find a single Product with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-
+  console.log("findOne ID:"+id);
   Product.findById(id)
-    .then(data => {
-      if (!data)
-        res.status(404).send({ message: "Not found Product with id " + id });
-      else res.send(data);
-    })
+    .exec()
+    .then((product) => res.json(product))
     .catch(err => {
       res
         .status(500)
@@ -80,17 +83,17 @@ exports.findOne = (req, res) => {
 // Find a single Product with an id
 exports.findByName = (req, res) => {
   const nameToFind = req.params.name;
-
+ console.log("findByName ...."+nameToFind);
   Product.find({name: nameToFind})
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Product with id " + id });
+        res.status(404).send({ message: "Not found Product with name " + nameToFind });
       else res.status(200).send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Product with id=" + id });
+        .send({ message: "Error retrieving Product with name=" + nameToFind });
     });
 };
 
@@ -160,6 +163,7 @@ exports.deleteAll = (req, res) => {
 
 // Find all Products with promotion
 exports.findAllPromotions = (req, res) => {
+  console.log("Find promotions....");
   Product.find({ is_promotion: true })
     .then(data => {
       res.send(data);
